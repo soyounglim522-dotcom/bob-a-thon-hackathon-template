@@ -10,8 +10,9 @@ my-wxo-agent/
     my_agent.yaml        ← Agent 정의 (name: my_agent)
   tools/
     my_tool.py           ← @tool 함수 (def my_tool)
-  connections/           ← 외부 API 인증이 필요한 경우
-  tests/                 ← pytest 테스트 케이스
+  tests/
+    test_my_tool.py      ← pytest 테스트 케이스
+  requirements.txt       ← 툴이 사용하는 외부 패키지 목록
   .env                   ← setup/.env.example 복사 후 실제 값 입력
 ```
 
@@ -43,20 +44,29 @@ cp setup/.env.example wxo-agent/my-wxo-agent/.env
 Bob에게 자연어로 요청하는 것이 가장 빠릅니다.
 
 ```
-"wxo-agent/my-wxo-agent 폴더에 날씨를 조회하는 agent를 만들어줘"
+"wxo-agent/my-wxo-agent 폴더에 [원하는 기능]을 하는 agent를 만들고 watsonx Orchestrate에 업로드해줘"
 ```
 
 직접 작성할 경우:
 - [`tools/my_tool.py`](tools/my_tool.py) — `@tool` 함수를 실제 로직으로 교체
 - [`agents/my_agent.yaml`](agents/my_agent.yaml) — `description`, `instructions` 수정
+- [`requirements.txt`](requirements.txt) — 추가 패키지가 있으면 기재
 
-### 3. 배포
+### 3. 테스트
+
+```bash
+cd setup
+uv run pytest ../wxo-agent/my-wxo-agent/tests/ -v
+```
+
+### 4. 배포
 
 ```bash
 # deploy.sh가 .env를 자동 로드합니다 (별도 source 불필요)
 bash setup/scripts/deploy.sh \
-    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
-    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
+    --tool  wxo-agent/my-wxo-agent/tools/my_tool.py \
+    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml \
+    --requirements-file wxo-agent/my-wxo-agent/requirements.txt
 ```
 
 외부 API 인증이 필요한 경우 (`ExpectedCredentials` 사용 시):
@@ -64,9 +74,10 @@ bash setup/scripts/deploy.sh \
 ```bash
 bash setup/scripts/deploy.sh \
     --connection wxo-agent/my-wxo-agent/connections/my_app.yaml \
-    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
-    --app-id my_app \
-    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
+    --tool       wxo-agent/my-wxo-agent/tools/my_tool.py \
+    --app-id     my_app \
+    --agent      wxo-agent/my-wxo-agent/agents/my_agent.yaml \
+    --requirements-file wxo-agent/my-wxo-agent/requirements.txt
 ```
 
 ## 참고 자료

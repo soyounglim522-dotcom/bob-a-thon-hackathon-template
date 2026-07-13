@@ -73,7 +73,7 @@ Bob에게 직접 Agent 작성을 요청하는 것을 권장합니다.
 Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agent/SKILL.md)의 가이드를 참고해 tool · agent 파일을 생성하고 배포까지 도와줍니다.
 
 ```
-"wxo-agent/my-wxo-agent 폴더에 날씨를 조회하는 agent를 만들어줘"
+"wxo-agent/my-wxo-agent 폴더에 [원하는 기능]을 하는 agent를 만들고 watsonx Orchestrate에 업로드해줘"
 ```
 
 직접 작성하려면 아래 참고 문서를 확인하세요.
@@ -144,7 +144,8 @@ Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agen
 │   ├── my-wxo-agent/                  ← 팀 Agent 코드 작업 폴더
 │   │   ├── agents/                    ← Agent YAML 파일
 │   │   ├── tools/                     ← @tool Python 파일
-│   │   ├── connections/               ← Connection YAML 파일
+│   │   ├── tests/                     ← pytest 테스트 케이스
+│   │   ├── requirements.txt           ← 툴 외부 패키지 목록
 │   │   └── .env                       ← 환경변수 (setup/.env.example 복사)
 │   └── skills/
 │       └── wxo-adk-agent/
