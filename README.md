@@ -61,15 +61,18 @@ Bob의 MCP 설정에 `setup/mcp/mcp.json` 내용을 추가하세요.
 ### 3. wxo Agent 개발
 
 ```bash
-# 작업 폴더 이동 및 하위 디렉토리 생성
-cd wxo-agent/my-wxo-agent
-mkdir -p agents tools connections tests
+# ※ 모든 명령은 레포 루트에서 실행
+
+# 하위 디렉토리 생성
+mkdir -p wxo-agent/my-wxo-agent/{agents,tools,connections,tests}
 
 # 툴 / 에이전트 템플릿 복사 후 수정
-cp ../skills/wxo-adk-agent/references/tool_template.py tools/my_tool.py
-cp ../skills/wxo-adk-agent/references/agent_collaborator.yaml agents/my_agent.yaml
+cp wxo-agent/skills/wxo-adk-agent/references/tool_template.py \
+   wxo-agent/my-wxo-agent/tools/my_tool.py
+cp wxo-agent/skills/wxo-adk-agent/references/agent_collaborator.yaml \
+   wxo-agent/my-wxo-agent/agents/my_agent.yaml
 
-# 로컬 테스트 (레포 루트에서 실행 — 테스트 파일이 없으면 "no tests ran" 정상)
+# 로컬 테스트 (테스트 파일이 없으면 "no tests ran" 정상)
 uv run --project setup pytest wxo-agent/my-wxo-agent/tools/ || true
 
 # 배포
