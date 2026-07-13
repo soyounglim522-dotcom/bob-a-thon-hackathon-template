@@ -2,8 +2,14 @@
 
 > **IBM Korea Bob-a-thon** — 팀 결과물 제출 레포지토리
 >
-> 이 레포는 **팀 결과물 제출용 템플릿**이면서, 동시에 참가자가 직접 **watsonx Orchestrate Agent**를 만들 수 있도록 가이드와 템플릿을 함께 포함합니다.
-> 직접 Agent를 만들고 싶다면 [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)부터 시작하세요.
+> 이 레포는 **팀 결과물 제출용 템플릿**이면서, 동시에 참가자가 직접 **watsonx Orchestrate Agent**와 **Instana 대시보드**를 Bob과 함께 만들 수 있도록 가이드와 템플릿을 함께 포함합니다.
+>
+> 오전·오후 세션 순서대로 진행하세요.
+>
+> | 세션 | 시간 | 목표 | 시작 가이드 |
+> |---|---|---|---|
+> | **세션 1** | 오전 | Bob ↔ watsonx Orchestrate Agent | [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md) |
+> | **세션 2** | 오후 | Bob ↔ Instana 대시보드 | [`instana-dashboard/README.md`](instana-dashboard/README.md) |
 
 ---
 
@@ -24,13 +30,7 @@
 
 ---
 
-## 빠른 시작 (Quick Start)
-
-> 제출용 문서는 이 README를 계속 사용하고, 실제 Agent 작성은 [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)를 따라 진행하세요.
->
-> - [`README.md`](README.md): 팀 소개, 결과 정리, 제출 체크리스트
-> - [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md): 참가자용 Agent 작성/배포 가이드
-> - [`wxo-agent/README.md`](wxo-agent/README.md): 최종 Agent 설명, 시나리오, 스크린샷 정리
+## 세션 1 (오전) — Bob ↔ watsonx Orchestrate Agent
 
 ### 0. 사전 준비 — `uv` 설치
 
@@ -42,7 +42,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ### 1. 의존성 설치 및 환경 변수 설정
 
 ```bash
-# 레포 루트에서 실행 — pyproject.toml이 setup/ 안에 있으므로 setup/ 에서 설치
+# 레포 루트에서 실행
 cd setup
 uv sync
 cd ..
@@ -52,9 +52,9 @@ cp setup/.env.example wxo-agent/my-wxo-agent/.env
 # .env 파일을 열어 WO_INSTANCE_URL, WO_INSTANCE_API_KEY 등 실제 값 입력
 ```
 
-### 2. Bob에 MCP 서버 등록 (wxo 연동)
+### 2. Bob에 wxo MCP 서버 등록
 
-Bob의 MCP 설정에 `setup/mcp/mcp.json` 내용을 추가하세요.
+Bob 설정 창(MCP Servers)에 아래 내용을 추가하세요. 동일한 내용이 `setup/mcp/mcp.json`에도 있습니다.
 
 ```json
 {
@@ -66,6 +66,8 @@ Bob의 MCP 설정에 `setup/mcp/mcp.json` 내용을 추가하세요.
   }
 }
 ```
+
+> ✅ 등록 후 Bob에게 `"list agents"` 라고 입력해 watsonx Orchestrate에 연결됐는지 확인하세요.
 
 ### 3. wxo Agent 개발
 
@@ -85,14 +87,87 @@ Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agen
 
 ---
 
+## 세션 2 (오후) — Bob ↔ Instana 대시보드
+
+Bob에 Instana MCP 서버를 등록하면, Bob이 Instana API를 직접 호출해 데이터를 조회·분석하거나 대시보드를 생성할 수 있습니다.
+
+### 1. Instana API 토큰 발급
+
+Instana 웹 콘솔 → **Settings → User settings → Personal API Tokens → New Personal API Token**에서 토큰을 발급합니다.
+
+| 권한 | 필요 여부 |
+|---|---|
+| Read configuration | 필수 |
+| Access infrastructure and platform data | 필수 |
+| Read application monitoring | 권장 |
+| Read custom dashboards | 권장 |
+
+### 2. Bob에 Instana MCP 서버 등록
+
+Bob 설정 창(MCP Servers)에 아래 내용을 추가하세요.
+
+```json
+{
+  "mcpServers": {
+    "instana": {
+      "command": "uvx",
+      "args": [
+        "mcp-instana==0.9.8",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "INSTANA_BASE_URL": "https://demo-instana.automation.ibmce-kr.com",
+        "INSTANA_API_TOKEN": "<your-api-token>",
+        "INSTANA_VERIFY_SSL": "false"
+      }
+    }
+  }
+}
+```
+
+> `INSTANA_API_TOKEN` 값만 발급받은 본인 토큰으로 교체하세요.
+
+### 3. 연결 확인
+
+Bob에게 아래와 같이 입력해 Instana 데이터가 정상적으로 응답되는지 확인하세요.
+
+```
+"Instana에서 현재 인프라 호스트 목록을 가져와줘"
+"Instana에서 최근 1시간의 서비스별 응답 시간을 요약해줘"
+```
+
+### 4. Bob에게 대시보드 생성 요청
+
+연결이 확인되면 아이디어를 자연어로 바로 요청하면 됩니다.
+
+```
+"Instana 데이터를 바탕으로 서비스 응답 시간과 에러율을 보여주는 대시보드를 만들어줘"
+"Instana에서 CPU 사용률 상위 5개 호스트를 뽑아 HTML 대시보드로 시각화해줘"
+"Instana 알림 이벤트를 기반으로 장애 현황 요약 페이지를 만들어줘"
+```
+
+### 아이디어 예시
+
+| # | 아이디어 | Bob 요청 예시 |
+|---|---|---|
+| 1 | 서비스 상태 요약 대시보드 | "서비스별 응답 시간·에러율을 한눈에 볼 수 있는 HTML 대시보드를 만들어줘" |
+| 2 | 인프라 리소스 Top-N 분석 | "CPU·메모리 사용률 상위 5개 호스트를 테이블로 정리해줘" |
+| 3 | 배포 전후 성능 비교 | "특정 서비스의 배포 전후 P99 응답 시간을 Instana에서 비교해줘" |
+| 4 | SLO 달성률 보고서 | "지난 7일간 서비스 가용성(SLO)을 집계해 요약 보고서를 만들어줘" |
+| 5 | 이상 감지 알림 요약 | "최근 발생한 Instana 이벤트를 심각도별로 분류해 정리해줘" |
+| 6 | 장애 타임라인 시각화 | "최근 인시던트를 타임라인 형태의 HTML 페이지로 시각화해줘" |
+
+---
+
 ## 아키텍처 요약 (Architecture Summary)
 
 > 전체 시스템 구성을 간략히 설명해 주세요.
 > 상세 내용은 [docs/architecture.md](docs/architecture.md) 를 참고하세요.
 
 ```
-[사용자] → [Bob] → [wxo Agent] → [watsonx Orchestrate]
-                 ↘ [Instana 대시보드]
+세션 1 (오전):  [참가자] → [Bob] ── MCP(adk) ─────→ [watsonx Orchestrate]  →  wxo Agent 배포·관리
+세션 2 (오후):  [참가자] → [Bob] ── MCP(instana) ──→ [Instana API]          →  대시보드·분석 결과 생성
 ```
 
 ---
@@ -166,7 +241,7 @@ Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agen
 │   ├── pyproject.toml                 ← 의존성 (ibm-watsonx-orchestrate 등)
 │   ├── AGENTS.md                      ← Bob 작업 가이드
 │   ├── mcp/
-│   │   └── mcp.json                   ← Bob MCP 서버 설정
+│   │   └── mcp.json                   ← Bob MCP 서버 설정 (wxo ADK)
 │   └── scripts/
 │       └── deploy.sh                  ← 자동 배포 스크립트
 │
