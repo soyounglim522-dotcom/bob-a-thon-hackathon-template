@@ -1,6 +1,9 @@
 # 팀명 (Team Name)
 
 > **IBM Korea Bob-a-thon** — 팀 결과물 제출 레포지토리
+>
+> 이 레포는 **팀 결과물 제출용 템플릿**이면서, 동시에 참가자가 직접 **watsonx Orchestrate Agent**를 만들 수 있도록 가이드와 템플릿을 함께 포함합니다.
+> 직접 Agent를 만들고 싶다면 [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)부터 시작하세요.
 
 ---
 
@@ -22,6 +25,12 @@
 ---
 
 ## 빠른 시작 (Quick Start)
+
+> 제출용 문서는 이 README를 계속 사용하고, 실제 Agent 작성은 [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)를 따라 진행하세요.
+>
+> - [`README.md`](README.md): 팀 소개, 결과 정리, 제출 체크리스트
+> - [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md): 참가자용 Agent 작성/배포 가이드
+> - [`wxo-agent/README.md`](wxo-agent/README.md): 최종 Agent 설명, 시나리오, 스크린샷 정리
 
 ### 0. 사전 준비 — `uv` 설치
 
@@ -77,12 +86,24 @@ uv run --project setup pytest wxo-agent/my-wxo-agent/tools/ || true
 
 # 배포 — deploy.sh 가 wxo-agent/my-wxo-agent/.env 를 자동으로 로드합니다
 # (별도 source 불필요)
+
+# A. Connection이 없는 tool인 경우
 bash setup/scripts/deploy.sh \
     --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
     --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
+
+# B. Connection이 필요한 tool인 경우
+bash setup/scripts/deploy.sh \
+    --connection wxo-agent/my-wxo-agent/connections/my_app.yaml \
+    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
+    --app-id my_app \
+    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
 ```
 
-> 📖 상세 가이드: [`wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md`](wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md)
+> 📖 상세 가이드:
+> - 배포 절차: [`wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md`](wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md)
+> - 작업 폴더 안내: [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)
+> - 흔한 실수 정리: [`wxo-agent/skills/wxo-adk-agent/references/pitfalls.md`](wxo-agent/skills/wxo-adk-agent/references/pitfalls.md)
 
 ---
 
