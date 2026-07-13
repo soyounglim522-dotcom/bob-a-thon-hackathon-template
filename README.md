@@ -88,7 +88,6 @@ Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agen
 ---
 
 ## 세션 2 (오후) — Bob ↔ Instana 대시보드
-
 Bob에 Instana MCP 서버를 등록하면, Bob이 Instana API를 직접 호출해 데이터를 조회·분석하거나 대시보드를 생성할 수 있습니다.
 
 ### 1. Instana API 토큰 발급
@@ -104,6 +103,26 @@ Instana 웹 콘솔 → **Settings → User settings → Personal API Tokens → 
 
 ### 2. Bob에 Instana MCP 서버 등록
 
+> ⚠️ **사전 준비 (최초 1회만)**
+> 이 데모 서버(`demo-instana.automation.ibmce-kr.com`)는 자체 서명(self-signed) 인증서를 사용합니다. 아래 준비 없이 바로 등록하면 `SSLCertVerificationError` / `certificate verify failed` 오류가 발생합니다.
+>
+> 터미널(macOS/Linux, Windows는 WSL 또는 Git Bash)에서 아래 3줄을 그대로 복사해서 실행하세요.
+>
+> ```bash
+> # 1) 서버 인증서 추출
+> openssl s_client -connect demo-instana.automation.ibmce-kr.com:443 \
+>   -servername demo-instana.automation.ibmce-kr.com </dev/null 2>/dev/null \
+>   | openssl x509 -outform PEM > instana-selfsigned.pem
+>
+> # 2) 인증서 패키지 준비 (이미 설치돼 있다면 생략 가능)
+> pip3 install certifi --break-system-packages
+>
+> # 3) 공인 인증서 목록 + 이 서버 인증서를 합쳐서 하나의 파일로 생성
+> cat "$(python3 -c 'import certifi; print(certifi.where())')" instana-selfsigned.pem > combined-ca.pem
+> ```
+>
+> 실행 후 `pwd` 명령으로 현재 폴더의 **절대 경로**를 확인해두세요. (예: `/Users/hong/hackathon-repo`) 아래 설정의 `<combined-ca.pem-절대경로>` 자리에 `그 경로/combined-ca.pem`을 넣으면 됩니다.
+
 Bob 설정 창(MCP Servers)에 아래 내용을 추가하세요.
 
 ```json
@@ -112,21 +131,22 @@ Bob 설정 창(MCP Servers)에 아래 내용을 추가하세요.
     "instana": {
       "command": "uvx",
       "args": [
-        "mcp-instana==0.9.8",
+        "mcp-instana==0.9.9",
         "--transport",
         "stdio"
       ],
       "env": {
         "INSTANA_BASE_URL": "https://demo-instana.automation.ibmce-kr.com",
         "INSTANA_API_TOKEN": "<your-api-token>",
-        "INSTANA_VERIFY_SSL": "false"
+        "SSL_CERT_FILE": "<combined-ca.pem-절대경로>",
+        "REQUESTS_CA_BUNDLE": "<combined-ca.pem-절대경로>"
       }
     }
   }
 }
 ```
 
-> `INSTANA_API_TOKEN` 값만 발급받은 본인 토큰으로 교체하세요.
+> `INSTANA_API_TOKEN`과 `SSL_CERT_FILE`/`REQUESTS_CA_BUNDLE` 값만 본인 환경에 맞게 교체하세요. 등록 후에는 **Bob을 완전히 종료했다가 다시 실행**해야 설정이 반영됩니다.
 
 ### 3. 연결 확인
 
