@@ -69,40 +69,18 @@ Bob의 MCP 설정에 `setup/mcp/mcp.json` 내용을 추가하세요.
 
 ### 3. wxo Agent 개발
 
-```bash
-# ※ 모든 명령은 레포 루트에서 실행
+Bob에게 직접 Agent 작성을 요청하는 것을 권장합니다.
+Bob은 [`wxo-agent/skills/wxo-adk-agent/SKILL.md`](wxo-agent/skills/wxo-adk-agent/SKILL.md)의 가이드를 참고해 tool · agent 파일을 생성하고 배포까지 도와줍니다.
 
-# 하위 디렉토리 생성
-mkdir -p wxo-agent/my-wxo-agent/{agents,tools,connections,tests}
-
-# 툴 / 에이전트 템플릿 복사 후 수정
-cp wxo-agent/skills/wxo-adk-agent/references/tool_template.py \
-   wxo-agent/my-wxo-agent/tools/my_tool.py
-cp wxo-agent/skills/wxo-adk-agent/references/agent_collaborator.yaml \
-   wxo-agent/my-wxo-agent/agents/my_agent.yaml
-
-# 로컬 테스트 (테스트 파일이 없으면 "no tests ran" 정상)
-uv run --project setup pytest wxo-agent/my-wxo-agent/tools/ || true
-
-# 배포 — deploy.sh 가 wxo-agent/my-wxo-agent/.env 를 자동으로 로드합니다
-# (별도 source 불필요)
-
-# A. Connection이 없는 tool인 경우
-bash setup/scripts/deploy.sh \
-    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
-    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
-
-# B. Connection이 필요한 tool인 경우
-bash setup/scripts/deploy.sh \
-    --connection wxo-agent/my-wxo-agent/connections/my_app.yaml \
-    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
-    --app-id my_app \
-    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
+```
+"wxo-agent/my-wxo-agent 폴더에 날씨를 조회하는 agent를 만들어줘"
 ```
 
+직접 작성하려면 아래 참고 문서를 확인하세요.
+
 > 📖 상세 가이드:
-> - 배포 절차: [`wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md`](wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md)
 > - 작업 폴더 안내: [`wxo-agent/my-wxo-agent/README.md`](wxo-agent/my-wxo-agent/README.md)
+> - 배포 절차: [`wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md`](wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md)
 > - 흔한 실수 정리: [`wxo-agent/skills/wxo-adk-agent/references/pitfalls.md`](wxo-agent/skills/wxo-adk-agent/references/pitfalls.md)
 
 ---
