@@ -69,8 +69,8 @@ mkdir -p agents tools connections tests
 cp ../skills/wxo-adk-agent/references/tool_template.py tools/my_tool.py
 cp ../skills/wxo-adk-agent/references/agent_collaborator.yaml agents/my_agent.yaml
 
-# 로컬 테스트 (setup/ 에서 설치한 uv 환경 사용)
-cd ../../setup && uv run pytest ../wxo-agent/my-wxo-agent/tools/ && cd ..
+# 로컬 테스트 (레포 루트에서 실행 — 테스트 파일이 없으면 "no tests ran" 정상)
+uv run --project setup pytest wxo-agent/my-wxo-agent/tools/ || true
 
 # 배포
 source wxo-agent/my-wxo-agent/.env

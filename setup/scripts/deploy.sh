@@ -54,24 +54,28 @@ done
 : "${WO_INSTANCE_API_KEY:?Set WO_INSTANCE_API_KEY (source .env first)}"
 : "${WO_INSTANCE_URL:?Set WO_INSTANCE_URL (source .env first)}"
 
-cd "$(git rev-parse --show-toplevel)"
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+# uv는 항상 setup/ 의 pyproject.toml 기준으로 실행
+UVX="uv run --project $REPO_ROOT/setup"
 
 # ── 0. Auth ──────────────────────────────────────────────────────────────────
 echo "▶ Registering env '$WO_ENV_NAME'..."
-printf 'Y\n' | uv run orchestrate env add \
+printf 'Y\n' | $UVX orchestrate env add \
     --name "$WO_ENV_NAME" \
     --url  "$WO_INSTANCE_URL" \
     --type "$WO_AUTH_TYPE" \
     --iam-url "$WO_IAM_URL" 2>&1 | grep -v "^$" || true
 
 echo "▶ Activating env..."
-uv run orchestrate env activate "$WO_ENV_NAME" --api-key "$WO_INSTANCE_API_KEY"
-uv run orchestrate env list | grep -E "active|$WO_ENV_NAME"
+$UVX orchestrate env activate "$WO_ENV_NAME" --api-key "$WO_INSTANCE_API_KEY"
+$UVX orchestrate env list | grep -E "active|$WO_ENV_NAME"
 
 # ── 1. Connection ─────────────────────────────────────────────────────────────
 if [[ -n "$CONNECTION_FILE" ]]; then
   echo "▶ Importing connection: $CONNECTION_FILE"
-  uv run orchestrate connections import --file "$CONNECTION_FILE" \
+  $UVX orchestrate connections import --file "$CONNECTION_FILE" \
     || echo "⚠  Connection import had issues (may already exist — continuing)"
 fi
 
@@ -81,13 +85,13 @@ if [[ -n "$TOOL_FILE" ]]; then
   TOOL_ARGS=(--kind python --file "$TOOL_FILE")
   [[ -n "$APP_ID" ]] && TOOL_ARGS+=(--app-id "$APP_ID")
   [[ -f "$REQUIREMENTS_FILE" ]] && TOOL_ARGS+=(--requirements-file "$REQUIREMENTS_FILE")
-  uv run orchestrate tools import "${TOOL_ARGS[@]}"
+  $UVX orchestrate tools import "${TOOL_ARGS[@]}"
 fi
 
 # ── 3. Agent ──────────────────────────────────────────────────────────────────
 if [[ -n "$AGENT_FILE" ]]; then
   echo "▶ Importing agent: $AGENT_FILE"
-  uv run orchestrate agents import --file "$AGENT_FILE"
+  $UVX orchestrate agents import --file "$AGENT_FILE"
 fi
 
 echo ""
