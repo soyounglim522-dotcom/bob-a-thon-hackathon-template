@@ -23,9 +23,22 @@
 
 ## 빠른 시작 (Quick Start)
 
-### 1. 환경 변수 설정
+### 0. 사전 준비 — `uv` 설치
 
 ```bash
+# uv가 없는 경우 (한 번만)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+### 1. 의존성 설치 및 환경 변수 설정
+
+```bash
+# 레포 루트에서 실행 — pyproject.toml이 setup/ 안에 있으므로 setup/ 에서 설치
+cd setup
+uv sync
+cd ..
+
+# 환경 변수 파일 복사 후 실제 값 입력
 cp setup/.env.example wxo-agent/my-wxo-agent/.env
 # .env 파일을 열어 WO_INSTANCE_URL, WO_INSTANCE_API_KEY 등 실제 값 입력
 ```
@@ -48,20 +61,22 @@ Bob의 MCP 설정에 `setup/mcp/mcp.json` 내용을 추가하세요.
 ### 3. wxo Agent 개발
 
 ```bash
-# my-wxo-agent/ 폴더에서 작업
+# 작업 폴더 이동 및 하위 디렉토리 생성
 cd wxo-agent/my-wxo-agent
+mkdir -p agents tools connections tests
 
-# 툴 템플릿 복사 후 수정
+# 툴 / 에이전트 템플릿 복사 후 수정
 cp ../skills/wxo-adk-agent/references/tool_template.py tools/my_tool.py
+cp ../skills/wxo-adk-agent/references/agent_collaborator.yaml agents/my_agent.yaml
 
-# 로컬 테스트
-uv run pytest tools/
+# 로컬 테스트 (setup/ 에서 설치한 uv 환경 사용)
+cd ../../setup && uv run pytest ../wxo-agent/my-wxo-agent/tools/ && cd ..
 
 # 배포
-source .env
-bash ../../setup/scripts/deploy.sh \
-    --tool tools/my_tool.py \
-    --agent agents/my_agent.yaml
+source wxo-agent/my-wxo-agent/.env
+bash setup/scripts/deploy.sh \
+    --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
+    --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
 ```
 
 > 📖 상세 가이드: [`wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md`](wxo-agent/skills/wxo-adk-agent/references/deploy_recipe.md)
