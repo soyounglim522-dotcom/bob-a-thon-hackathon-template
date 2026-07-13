@@ -27,6 +27,24 @@
 
 set -euo pipefail
 
+# ── Auto-load .env if present ────────────────────────────────────────────────
+# Looks for .env in wxo-agent/my-wxo-agent/.env relative to repo root,
+# then falls back to a .env in the current directory.
+_REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+for _ENV_FILE in \
+    "$_REPO_ROOT/wxo-agent/my-wxo-agent/.env" \
+    "$_REPO_ROOT/.env" \
+    ".env"; do
+  if [[ -f "$_ENV_FILE" ]]; then
+    set -o allexport
+    # shellcheck disable=SC1090
+    source "$_ENV_FILE"
+    set +o allexport
+    echo "ℹ  Loaded env from $_ENV_FILE"
+    break
+  fi
+done
+
 # ── Defaults ────────────────────────────────────────────────────────────────
 WO_IAM_URL="${WO_IAM_URL:-https://iam.cloud.ibm.com}"
 WO_AUTH_TYPE="${WO_AUTH_TYPE:-ibm_iam}"

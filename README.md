@@ -75,8 +75,8 @@ cp wxo-agent/skills/wxo-adk-agent/references/agent_collaborator.yaml \
 # 로컬 테스트 (테스트 파일이 없으면 "no tests ran" 정상)
 uv run --project setup pytest wxo-agent/my-wxo-agent/tools/ || true
 
-# 배포
-source wxo-agent/my-wxo-agent/.env
+# 배포 — deploy.sh 가 wxo-agent/my-wxo-agent/.env 를 자동으로 로드합니다
+# (별도 source 불필요)
 bash setup/scripts/deploy.sh \
     --tool wxo-agent/my-wxo-agent/tools/my_tool.py \
     --agent wxo-agent/my-wxo-agent/agents/my_agent.yaml
