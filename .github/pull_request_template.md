@@ -7,7 +7,6 @@
 - [ ] `README.md` — 팀원, 프로젝트 개요, 구현 결과, 테스트 요약 작성 완료
 - [ ] `docs/architecture.md` — 아키텍처 설계 문서 작성 완료
 - [ ] `docs/architecture-diagram.*` — 아키텍처 다이어그램 파일 업로드
-- [ ] `docs/test-plan.md` — 테스트 계획 및 수행 결과 작성 완료
 - [ ] `wxo-agent/README.md` — Agent 설명 작성 완료
 - [ ] `wxo-agent/screenshots/` — Agent 동작 스크린샷 1장 이상 업로드
 - [ ] `instana-dashboard/README.md` — 대시보드 설명 작성 완료

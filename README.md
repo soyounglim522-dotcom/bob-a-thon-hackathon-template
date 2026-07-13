@@ -214,7 +214,6 @@ Bob에게 아래와 같이 입력해 Instana 데이터가 정상적으로 응답
 
 ## 테스트 결과 요약 (Test Summary)
 
-> 상세 테스트 계획 및 수행 결과는 [docs/test-plan.md](docs/test-plan.md) 를 참고하세요.
 
 | 항목 | 결과 |
 |---|---|
@@ -230,8 +229,7 @@ Bob에게 아래와 같이 입력해 Instana 데이터가 정상적으로 응답
 .
 ├── README.md                          ← 이 파일
 ├── docs/
-│   ├── architecture.md                ← 아키텍처 설계 문서
-│   └── test-plan.md                   ← 테스트 계획 및 결과
+│   └── architecture.md                ← 아키텍처 설계 문서
 │
 ├── wxo-agent/
 │   ├── README.md                      ← Agent 설명
@@ -275,7 +273,6 @@ Bob에게 아래와 같이 입력해 Instana 데이터가 정상적으로 응답
 
 - [ ] `docs/architecture.md` 작성 완료
 - [ ] `docs/architecture-diagram.*` 다이어그램 파일 업로드
-- [ ] `docs/test-plan.md` 작성 완료
 - [ ] `wxo-agent/screenshots/` 스크린샷 업로드
 - [ ] `instana-dashboard/screenshots/` 스크린샷 업로드
 - [ ] _(선택)_ `showcase-page/index.html` 작성 완료

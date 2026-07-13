@@ -2,10 +2,10 @@
 
 ## 1. 전체 시스템 구성도
 
-> 아키텍처 다이어그램 이미지를 아래에 첨부해 주세요.  
-> 파일은 `docs/architecture-diagram.png` (또는 `.svg`, `.drawio`) 로 저장하세요.
+> 아키텍처 다이어그램 이미지를 아래에 첨부해 주세요.
+> 파일은 `docs/architecture-diagram.png` (또는 `.svg`, `.drawio`) 로 저장하고, 아래 주석을 해제하세요.
 
-![Architecture Diagram](./architecture-diagram.png)
+<!-- ![Architecture Diagram](./architecture-diagram.png) -->
 
 ---
 
