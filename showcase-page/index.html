@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>팀명 — IBM Korea Bob-a-thon</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #1f2328;
+      background: #ffffff;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #1f2328;
+      color: #ffffff;
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    header .badge {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #a0aab4;
+      margin-bottom: 12px;
+    }
+    header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 16px;
+      color: #8b949e;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+    }
+
+    section { margin-bottom: 56px; }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1f2328;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2328;
+      margin: 24px 0 10px;
+    }
+
+    p { color: #57606a; margin-bottom: 12px; }
+
+    /* ── Cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .card {
+      background: #f7f8fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px 22px;
+    }
+    .card .card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #57606a;
+      margin-bottom: 8px;
+    }
+    .card .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2328;
+      margin-bottom: 6px;
+    }
+    .card p { font-size: 13px; margin: 0; }
+
+    /* ── Team table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+      background: #f7f8fa;
+      font-weight: 600;
+      color: #1f2328;
+    }
+    td { color: #57606a; }
+
+    /* ── Screenshot placeholder ── */
+    .screenshot-box {
+      background: #f7f8fa;
+      border: 1px dashed #c1c8d0;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 220px;
+      color: #8b949e;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    /* 실제 스크린샷이 있는 경우 img 태그로 교체하세요 */
+    .screenshot-box img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 4px;
+    }
+
+    /* ── Architecture diagram ── */
+    .arch-box {
+      background: #f7f8fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 24px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #1f2328;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      padding: 6px 0;
+      color: #57606a;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .check-done { color: #2da44e; font-weight: 700; }
+    .check-pending { color: #bf8700; font-weight: 700; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #8b949e;
+      border-top: 1px solid #e5e7eb;
+      padding: 20px 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="badge">IBM Korea Bob-a-thon 2025</div>
+    <h1>팀명을 입력하세요</h1>
+    <p>프로젝트 한 줄 소개를 여기에 작성해 주세요. 어떤 문제를 해결하는지 간단히 설명하세요.</p>
+  </header>
+
+  <main>
+
+    <!-- ===== 1. 팀원 소개 ===== -->
+    <section id="team">
+      <h2>팀원 소개</h2>
+      <table>
+        <thead>
+          <tr><th>이름</th><th>역할</th><th>담당 파트</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>홍길동</td><td>팀장</td><td>wxo Agent 설계 및 구현</td></tr>
+          <tr><td>김철수</td><td>팀원</td><td>Instana 대시보드 구성</td></tr>
+          <tr><td>이영희</td><td>팀원</td><td>소개 웹페이지 제작</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ===== 2. 아키텍처 ===== -->
+    <section id="architecture">
+      <h2>전체 아키텍처</h2>
+      <p>팀이 설계한 전체 시스템 구성을 설명해 주세요.</p>
+      <div class="arch-box">[사용자]
+   │
+   ▼
+ [Bob] ──────────────▶ [wxo Agent]
+   │                       │
+   │                  [Skill 1 / Skill 2]
+   │
+   └──────────────▶ [Instana 대시보드]
+                         │
+                    [모니터링 지표]</div>
+      <p style="margin-top:12px; font-size:13px;">
+        ※ 실제 아키텍처 다이어그램 이미지가 있다면 위 텍스트 다이어그램 대신
+        <code>img</code> 태그로 교체해 주세요.
+      </p>
+    </section>
+
+    <!-- ===== 3. wxo Agent ===== -->
+    <section id="wxo">
+      <h2>wxo Agent</h2>
+      <p>구현한 Agent의 이름, 목적, 주요 Skill을 소개해 주세요.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-label">Agent</div>
+          <div class="card-title">Agent 이름</div>
+          <p>Agent가 하는 일을 한 두 문장으로 설명하세요.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Skill 1</div>
+          <div class="card-title">Skill 이름</div>
+          <p>이 Skill이 하는 일을 간단히 설명하세요.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Skill 2</div>
+          <div class="card-title">Skill 이름</div>
+          <p>이 Skill이 하는 일을 간단히 설명하세요.</p>
+        </div>
+      </div>
+
+      <h3>데모 스크린샷</h3>
+      <div class="screenshot-box">
+        <!-- 스크린샷이 있으면 아래 주석 해제 후 경로 수정 -->
+        <!-- <img src="wxo-agent/screenshots/agent-chat.png" alt="wxo Agent 대화 화면" /> -->
+        스크린샷을 여기에 첨부하세요 (wxo-agent/screenshots/)
+      </div>
+    </section>
+
+    <!-- ===== 4. Instana 대시보드 ===== -->
+    <section id="instana">
+      <h2>Instana 대시보드</h2>
+      <p>구성한 대시보드의 목적과 주요 모니터링 지표를 설명해 주세요.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-label">패널 1</div>
+          <div class="card-title">지표 이름</div>
+          <p>이 지표를 모니터링하는 이유를 설명하세요.</p>
+        </div>
+        <div class="card">
+          <div class="card-label">패널 2</div>
+          <div class="card-title">지표 이름</div>
+          <p>이 지표를 모니터링하는 이유를 설명하세요.</p>
+        </div>
+      </div>
+
+      <h3>대시보드 스크린샷</h3>
+      <div class="screenshot-box">
+        <!-- <img src="instana-dashboard/screenshots/dashboard-overview.png" alt="Instana 대시보드" /> -->
+        스크린샷을 여기에 첨부하세요 (instana-dashboard/screenshots/)
+      </div>
+    </section>
+
+    <!-- ===== 5. 테스트 결과 ===== -->
+    <section id="test">
+      <h2>테스트 결과</h2>
+      <ul class="checklist">
+        <li><span class="check-done">✔</span> wxo Agent 기본 응답 정상 동작</li>
+        <li><span class="check-done">✔</span> Skill 트리거 및 실행 성공</li>
+        <li><span class="check-done">✔</span> Instana 대시보드 데이터 수집 확인</li>
+        <li><span class="check-pending">◑</span> 알림 설정 테스트 (진행 중)</li>
+        <!-- 실제 테스트 결과에 맞게 수정해 주세요 -->
+      </ul>
+      <p style="margin-top:16px; font-size:13px;">
+        상세 테스트 계획 및 결과는
+        <a href="docs/test-plan.md">docs/test-plan.md</a>를 참고하세요.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    Made with IBM Bob &nbsp;·&nbsp; IBM Korea Bob-a-thon 2025
+  </footer>
+
+</body>
+</html>

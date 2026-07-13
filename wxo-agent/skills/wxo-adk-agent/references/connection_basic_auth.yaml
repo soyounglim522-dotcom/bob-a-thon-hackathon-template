@@ -1,0 +1,49 @@
+# Connection config — basic_auth and key_value examples.
+#
+# Save as `connections/<your_app>.yaml`. The `app_id` here is what you pass to
+# `orchestrate connections add --app-id <id>` AND what you reference in your
+# Python tool's ExpectedCredentials(app_id="...").
+
+# ---------------------------------------------------------------------------
+# Variant A: key_value (the simplest — single token or arbitrary key/value pairs)
+# ---------------------------------------------------------------------------
+spec_version: v1
+kind: connection
+app_id: my_app
+
+environments:
+  draft:
+    kind: key_value
+    type: team
+    server_url: https://api.example.com
+    credentials:
+      token: "{MY_APP[token]}"
+
+  live:
+    kind: key_value
+    type: team
+    server_url: https://api.example.com
+    credentials:
+      token: "{MY_APP[token]}"
+
+# ---------------------------------------------------------------------------
+# Variant B: basic_auth (username + password)
+# ---------------------------------------------------------------------------
+# spec_version: v1
+# kind: connection
+# app_id: my_app
+# environments:
+#   draft:
+#     kind: basic
+#     type: member
+#     server_url: https://api.example.com
+#     credentials:
+#       username: "{MY_APP[username]}"
+#       password: "{MY_APP[password]}"
+#   live:
+#     kind: basic
+#     type: member
+#     server_url: https://api.example.com
+#     credentials:
+#       username: "{MY_APP[username]}"
+#       password: "{MY_APP[password]}"

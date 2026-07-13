@@ -1,0 +1,35 @@
+# Connection config — OAuth2 authorization-code flow.
+#
+# Use this when the upstream API requires a per-user OAuth dance.
+# For simple API tokens or basic auth, prefer connection_basic_auth.yaml.
+
+spec_version: v1
+kind: connection
+app_id: my_oauth_app
+
+environments:
+  draft:
+    kind: oauth_auth_code_flow
+    type: member
+    sso: false
+    server_url: "{MY_OAUTH_APP[base_url]}"
+    credentials:
+      token_url: "{MY_OAUTH_APP[token_url]}"
+      authorization_url: "{MY_OAUTH_APP[auth_url]}"
+      client_id: "{MY_OAUTH_APP[client_id]}"
+      client_secret: "{MY_OAUTH_APP[client_secret]}"
+      # scope: "{MY_OAUTH_APP[scope]}"   # optional, space-separated string
+
+  live:
+    kind: oauth_auth_code_flow
+    type: member
+    sso: false
+    server_url: "{MY_OAUTH_APP[base_url]}"
+    credentials:
+      token_url: "{MY_OAUTH_APP[token_url]}"
+      authorization_url: "{MY_OAUTH_APP[auth_url]}"
+      client_id: "{MY_OAUTH_APP[client_id]}"
+      client_secret: "{MY_OAUTH_APP[client_secret]}"
+
+# Other OAuth flows: oauth_auth_password_flow, oauth_auth_client_credentials_flow,
+# oauth_auth_on_behalf_of_flow
